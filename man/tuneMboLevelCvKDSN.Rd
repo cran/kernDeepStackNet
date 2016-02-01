@@ -5,7 +5,7 @@
 Tuning of KDSN with efficient global optimization given level by cross-validation
 }
 \description{
-Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This algorithm finds optimal tuning parameters regarding the generalized cross-validation score by approximating the loss function. This function uses cross-validation to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates.
+Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates.
 }
 \usage{
 tuneMboLevelCvKDSN(y, X, levels=10, 

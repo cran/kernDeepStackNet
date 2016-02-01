@@ -1,9 +1,9 @@
-8f831685fae0ea8b3b5dbd918e4afb92 *DESCRIPTION
+64df5936f7d645524b5ad9bcaaef2fd6 *DESCRIPTION
 4b80a4d87d695950761f2619769f46b6 *NAMESPACE
 139de0b56484d88cb6849edaed160797 *R/KDSNOptMisc.R
 95a59cede34f714a5739a26b90625f1f *R/KDSNdirectOpt.R
 b42b97187519d19c9e6dbc2d523312e5 *R/KDSNestimation.R
-ccec4545a51d4796f5767f860faadfc2 *R/KDSNlossFunc.R
+3cdcb57b357d6ff89942341b74e3028b *R/KDSNlossFunc.R
 d6d486596b820a44da5001fa76a5e40c *R/KDSNmodelBasedOpt.R
 685437069755c084596549efc8f46b57 *R/RcppExports.R
 2f521f57bdd9b30cae55b918e5546672 *man/EImod.Rd
@@ -18,7 +18,7 @@ ab42df3514a6ef56c8109e515b55fcb8 *man/fitKDSN.Rd
 e5073797273cf750087eaedce44deda2 *man/fourierTransPredict.Rd
 d521be31b4aef88d174ae539a359d600 *man/gDerivMu.Rd
 a3be8cacf94c225c434fd6fad96212b6 *man/getEigenValues.Rd
-99db2b4dba3614d475c544849f60d544 *man/kernDeepStackNet-package.Rd
+0ea4462fa48cd9460c492af9d6bd74ea *man/kernDeepStackNet-package.Rd
 c17bb48ac771b0ac3722ba2e7b927c94 *man/lossCvKDSN.Rd
 19dd5a840fc92aebdbae49d84ed8a52c *man/lossGCV.Rd
 f85577bd8b2d2eef34c41e29f728b73e *man/lossKDSN.Rd
@@ -33,9 +33,9 @@ fad4f80671f1e441021964e5bc330285 *man/randomFourierTrans.Rd
 27b56e84717a16982601ff72ba8c5f1a *man/tuneKDSN.Rd
 cec5b2aace63db74f98d5ef2d7009f77 *man/tuneLevelGridKDSN.Rd
 df44d016cc40df6164ed1ffba7a5aaa6 *man/tuneLevelKDSN.Rd
-91563ad55a73f7a6ef0b114e8e58cbdf *man/tuneMboCvKDSN.Rd
+4fa9dcaaa37d58de5668d87c03b3f0f1 *man/tuneMboCvKDSN.Rd
 6d7c01196fb2283ee8a66e96004583be *man/tuneMboKDSN.Rd
-5473976a2253a96f415f021ec32ef85f *man/tuneMboLevelCvKDSN.Rd
+ad0bc60d45927e7a152c6286ac96c0dd *man/tuneMboLevelCvKDSN.Rd
 133f2bbdab75c688d6c0d7eee2eb879a *man/tuneMboLevelGridKDSN.Rd
 fc70289dfbd54e76b80d0eb94976d9c9 *man/tuneMboLevelKDSN.Rd
 dc1405d4c4f36101be9866e97e1b855e *man/varMu.Rd
@@ -50,6 +50,6 @@ d4ed8c6984d465fa2f4c8760f2aa6579 *tests/KDSNestimation_tests_randomFourierTrans.
 ee06c366d2b98d3f7d88c7fad12845cd *tests/KDSNestimation_tests_robust_standard.R
 b15deb800e8534a6a6c634437f36b435 *tests/KDSNfineTuneTests.R
 cb9810f5bc21edcf17ee1274f84e3358 *tests/KDSNlossFunc_tests_kDSN_loss.R
-1c6e8b6a9dfe68b0d379dc47d4d3525d *tests/KDSNmodelBasedOpt_tests_tune_KDSN_EGO.R
-e07ac6913d061d036a048a1f166507cf *tests/KDSNmodelBasedOpt_tests_tune_KDSN_level_EGO.R
+d685c12e3a090a72712ba4b79541986d *tests/KDSNmodelBasedOpt_tests_tune_KDSN_EGO.R
+c5ceaf7344f4b8c86eb328946c79801e *tests/KDSNmodelBasedOpt_tests_tune_KDSN_level_EGO.R
 088d3002538ac6709a3c20739583ce63 *tests/KDSNrcpp.R

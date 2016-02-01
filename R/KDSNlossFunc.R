@@ -145,11 +145,12 @@ lossCvKDSN <- function (parOpt, y, X, cvIndex, seedW, lossFunc=devStandard) {
   for(j in 1:cvSamples) {
     
     # Fit model
-    fitKDSN <- fitKDSN (y=y [cvIndex [[j]] ], X=X [cvIndex [[j]], ], levels=levels, Dim=Dim, sigma=sigma, lambda=lambda, 
+    fitKDSN <- fitKDSN (y=y [cvIndex [[j]] ], X=as.matrix(X [cvIndex [[j]], ]), 
+                        levels=levels, Dim=Dim, sigma=sigma, lambda=lambda, 
                         alpha=rep(0, levels), info=FALSE, seedW=seedW, standX=TRUE)
     
     # Compute predicted values
-    predVal <- predict(fitKDSN, newx=X [-cvIndex [[j]], ])
+    predVal <- predict(fitKDSN, newx=as.matrix(X [-cvIndex [[j]], ]))
 
     # Compute loss
     vecLoss [j] <- lossFunc(preds=predVal, ytest=y [-cvIndex [[j]] ])

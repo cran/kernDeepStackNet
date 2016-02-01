@@ -10,23 +10,22 @@ Contains functions for estimation and model selection of kernel deep stacking ne
 
 The model selection includes direct optimization or model-based alternatives of arbitrary loss functions. All help functions are also available for customized modeling, but it is recommended to use the higher level functions. The main functions are 
 \itemize{
-\item{\code{\link{fitKDSN}}: }{Fits kernel deep stacking networks}
-\item{\code{\link{tuneKDSN}}: }{Model selection of tuning parameters of 
-kernel deep stacking networks with direct minimization of generalized cross-valdiation loss}
+\item{\code{\link{fitKDSN}}: }{Fits kernel deep stacking networks.}
 \item{\code{\link{tuneMboKDSN}}: }{Model selection of tuning parameters of 
-kernel deep stacking networks with model-based optimization of generalized cross-valdiation loss function}
+kernel deep stacking networks with model-based optimization of generalized cross-valdiation loss function.}
 \item{\code{\link{tuneMboCvKDSN}}: }{Model selection of tuning parameters of 
-kernel deep stacking networks with model-based optimization using cross-valdiation with arbitrary loss functions}
-\item{\code{\link{fineTuneKDSN}}: }{Finds better suited random Fourier transformation weights, regarding generalized cross-valdiation loss, by random search given an estimated KDSN structure}
-\item{\code{\link{fineTuneCvKDSN}}: }{Finds better suited random Fourier transformation weights, regarding arbitrary cross-validated loss functions, by random search given an estimated KDSN structure}
+kernel deep stacking networks with model-based optimization using cross-valdiation with arbitrary loss functions.}
+\item{\code{\link{tuneMboLevelCvKDSN}}: }{Model selection of tuning parameters of 
+kernel deep stacking networks with model-based optimization using cross-valdiation, arbitrary loss functions and pre-specified number of levels.}
+\item{\code{\link{fineTuneCvKDSN}}: }{Finds better suited random Fourier transformation weights, regarding arbitrary cross-validated loss functions, by random search given an estimated KDSN structure.}
 }
 }
 \details{
 \tabular{ll}{
 Package: \tab kernDeepStackNet\cr
 Type: \tab Package\cr
-Version: \tab 1.0.0\cr
-Date: \tab 2015-11-07 \cr
+Version: \tab 1.0.1\cr
+Date: \tab 2016-02-01 \cr
 License: \tab GPL-3 \cr
 }
 %%~~ An overview of how to use the package, including the most important functions ~~
