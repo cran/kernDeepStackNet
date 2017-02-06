@@ -8,7 +8,7 @@ One dimensional optimization of multivariate loss functions
 Applies a stepwise one dimensional algorithm conditional on the previous best parameter values. The one dimensional algorithm is a combination of golden search and linear interpolation.
 }
 \usage{
-optimize1dMulti(f_input, interval_matrix, maxRuns=3, repetitions=5, 
+optimize1dMulti(f_input, lower, upper, maxRuns=3, repetitions=5, 
 tol_input=.Machine$double.eps^0.25, x_0=NULL, addInfo=TRUE,
 nCores=1, envir=parent.frame(), directUse=TRUE, OptTypePar="")
 }
@@ -17,8 +17,14 @@ nCores=1, envir=parent.frame(), directUse=TRUE, OptTypePar="")
 \item{f_input}{
 General loss function with multiple inputs and one numeric outcome value. The function must have a x as first argument, e.g. f(x).
 }
-\item{interval_matrix}{
-Gives the bounds of the input parameters (numeric matrix). The dimension of the matrix is 2 x I and I is the number of inputs. The first row is defined as the minimum and the second row as the maximum bound of the parameter in the i-th column.
+%\item{interval_matrix}{
+%Gives the bounds of the input parameters (numeric matrix). The dimension of the matrix %is 2 x I and I is the number of inputs. The first row is defined as the minimum and the %second row as the maximum bound of the parameter in the i-th column.
+%}
+\item{lower}{
+Gives the lower bounds of the input parameters (numeric vector). Each variable corresponds to one element of the vector.
+}
+\item{upper}{
+Gives the upper bounds of the input parameters (numeric vector). Each variable corresponds to one element of the vector.
 }
 \item{maxRuns}{
 Maximal number of iterations in the conditional optimization. Default is three.
@@ -85,7 +91,8 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{tuneKDSN}}, \code{\link{tuneLevelKDSN}}, \code{\link{tuneMboKDSN}}, \code{\link{tuneMboLevelKDSN}}
+\code{\link{tuneMboLevelCvKDSN}}, \code{\link{tuneMboLevelGcvKDSN}}, 
+\code{\link{tuneMboSharedCvKDSN}}
 }
 
 \examples{
@@ -94,7 +101,7 @@ library(globalOptTests)
 getDefaultBounds("AluffiPentini")
 oneDres <- optimize1dMulti (f_input=function (x) 
 goTest (x, fnName="AluffiPentini", checkDim=TRUE), 
-maxRuns=3, repetitions=5, interval_matrix=matrix(rep(c(-12, 10), 2), ncol=2), 
+maxRuns=3, repetitions=5, lower=rep(-12, 2), upper=rep(10, 2),
 tol_input=.Machine$double.eps^0.25)
 abs(oneDres$objective-getGlobalOpt("AluffiPentini"))
 
@@ -102,7 +109,7 @@ abs(oneDres$objective-getGlobalOpt("AluffiPentini"))
 getDefaultBounds("CosMix4")
 oneDres <- optimize1dMulti (f_input=function (x) 
 goTest (x, fnName="CosMix4", checkDim=TRUE), 
-maxRuns=3, repetitions=5, interval_matrix=matrix(rep(c(-2, 1), 4), ncol=4), 
+maxRuns=3, repetitions=5, lower=rep(-2, 4), upper=rep(1, 4),
 tol_input=.Machine$double.eps^0.25)
 abs(oneDres$objective-getGlobalOpt("CosMix4"))
 
@@ -110,7 +117,7 @@ abs(oneDres$objective-getGlobalOpt("CosMix4"))
 getDefaultBounds("Rastrigin")
 oneDres <- optimize1dMulti (f_input=function (x) 
 goTest (x, fnName="Rastrigin", checkDim=TRUE), 
-maxRuns=3, repetitions=5, interval_matrix=matrix(rep(c(-525, 512), 10), ncol=10),
+maxRuns=3, repetitions=5, lower=rep(-525, 10), upper=rep(512, 10),
 tol_input=.Machine$double.eps^0.25)
 abs(oneDres$objective-getGlobalOpt("Rastrigin"))
 
@@ -118,7 +125,7 @@ abs(oneDres$objective-getGlobalOpt("Rastrigin"))
 getDefaultBounds("Rastrigin")
 oneDres <- optimize1dMulti (f_input=function (x) 
 goTest (x, fnName="Rastrigin", checkDim=TRUE), 
-maxRuns=3, repetitions=5, interval_matrix=matrix(rep(c(-525, 512), 10), ncol=10),
+maxRuns=3, repetitions=5, lower=rep(-525, 10), upper=rep(512, 10),
 tol_input=.Machine$double.eps^0.5)
 abs(oneDres$objective-getGlobalOpt("Rastrigin"))
 }

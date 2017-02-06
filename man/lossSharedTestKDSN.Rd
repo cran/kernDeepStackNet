@@ -1,17 +1,17 @@
-\name{lossCvKDSN}
-\alias{lossCvKDSN}
+\name{lossSharedTestKDSN}
+\alias{lossSharedTestKDSN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Kernel deep stacking network loss function based on cross-validation
+Kernel deep stacking network loss function with test set and shared hyperparameters
 }
 \description{
-Computes the average root mean squared error by cross-validation. The model is fitted \code{length(cvIndex)} times and predicts the left out test cases. This procedure may be repeated to decrease the variance of the average predictive deviance. The repetitions are assumed to be included in the list \code{cvIndex}. The format can be conviniently created by using supplied functions in the package \code{caret}, e. g. \code{\link[caret]{createFolds}}.
+Computes the RMSE on a specified test set. The model is fitted one time and predicts the response in the test set. Tuning parameters are independent of the level. 
 }
 \usage{
-lossCvKDSN(parOpt, y, X, levels, cvIndex, seedW=NULL, lossFunc=devStandard,
-varSelect=rep(FALSE, levels), varRanking=NULL, alpha=rep(0, levels),
-dropHidden=rep(FALSE, levels), seedDrop=NULL, standX=TRUE, standY=FALSE,
-namesParOpt=rep(c("dim", "sigma", "lambdaRel"), levels))
+lossSharedTestKDSN(parOpt, y, X, yTest, Xtest, seedW=NULL, lossFunc=devStandard,
+varSelectShared=FALSE, varRanking=NULL, alphaShared=0, dropHiddenShared=FALSE,
+seedDrop=NULL, standX=TRUE, standY=FALSE, 
+namesParOpt=c("levels", "dim", "sigma", "lambdaRel"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,11 +24,11 @@ Numeric response vector of the outcome. Should be formated as a one column matri
   \item{X}{
 Numeric design matrix of the covariates. All factors have to be prior encoded.
 }
-\item{levels}{
-  Number of levels of the kernel deep stacking network (integer scalar).
+  \item{yTest}{
+Numeric response vector of the test set. Should be formated as a one column matrix.
 }
-  \item{cvIndex}{
-List of training indices. Each list gives one drawn training set indices. See for example function \code{\link[caret]{createMultiFolds}}.
+  \item{Xtest}{
+Numeric design matrix of the covariates of the test set. All factors have to be properly encoded, e. g. dummy encoding.
 }
   \item{seedW}{
 Seeds for the random Fourier transformation (integer vector). Each value corresponds to the seed of one level. The length must equal the number of levels of the kernel deep stacking network.
@@ -36,17 +36,17 @@ Seeds for the random Fourier transformation (integer vector). Each value corresp
   \item{lossFunc}{
 Specifies the used loss function for evaluation on the test observations. It must have arguments "preds" (predictions) and "ytest" (test observations). Default=devStandard is predictive deviance.
 }
-\item{varSelect}{
-Should unimportant variables be excluded in each level? Default is that all available variables are used. (logical scalar)
+\item{varSelectShared}{
+Should unimportant variables be excluded? Default is that all available variables are used. (logical scalar). This setting is equal over all levels.
 }
 \item{varRanking}{
 Defines a variable ranking in increasing order. The first variable is least important and the last is the most important. (integer vector)
 }
-\item{alpha}{
-Weight parameter between lasso and ridge penalty (numeric vector) of each level. Default=0 corresponds to ridge penalty and 1 equals lasso.
+\item{alphaShared}{
+Weight parameter between lasso and ridge penalty (numeric vector). Default=0 corresponds to ridge penalty and 1 equals lasso. This setting is equal across all levels.
 }
-\item{dropHidden}{
-Should dropout be applied on the random Fourier transformation? Each entry corresponds to the one level. Default is without dropout (logical vector).
+\item{dropHiddenShared}{
+Should dropout be applied on the random Fourier transformation? This setting is equal for all levels. Default is without dropout (logical vector).
 }
 \item{seedDrop}{
 Specifies the seed of the random dropouts in the calculation of random Fourier transformation per level. Default is random (integer vector).
@@ -63,6 +63,7 @@ Gives the names of the argument parOpt (character vector). It is used to encode 
 }
 \details{
 \code{namesParOpt}: \\
+"level" corresponds to the number of levels of KDSN. \\
 "select" corresponds to the relative frequency of dropping unimportant variables according to the randomized dependence coefficient. \\
 "dim" corresponds to a dimension parameter of the random Fourier transformation. \\
 "sigma" corresponds to the precision parameter of the gaussian distribution to generate random weights. \\
@@ -70,7 +71,7 @@ Gives the names of the argument parOpt (character vector). It is used to encode 
 "lambdaRel" corresponds to the regularization parameter of kernel ridge regression.
 }
 \value{
-Root average predictive deviance of the model (numeric scalar). The fit is available as attribute.
+Root mean squared error (numeric scalar). The fit is available as attribute.
 }
 \references{
 Po-Seng Huang and Li Deng and Mark Hasegawa-Johnson and Xiaodong He, (2013), 
@@ -89,14 +90,14 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 
 \note{
 Should only be used by experienced users, who want to customize the model. 
-It is called in the model selection process of the kernel deep stacking network, e. g. \code{\link{tuneMboLevelCvKDSN}}
+It is called in the model selection process of the kernel deep stacking network, e. g. \code{\link{tuneMboLevelCvKDSN}}. The loss function can be adapted to specific data situations. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{lossApprox}}, \code{\link{lossGCV}}, \code{\link{lossSharedCvKDSN}}, 
-\code{\link{lossSharedTestKDSN}}
+\code{\link{lossApprox}}, \code{\link{lossCvKDSN}}, \code{\link{lossSharedCvKDSN}}, 
+\code{\link{lossGCV}}
 }
 
 \examples{
@@ -117,20 +118,14 @@ set.seed(-1)
 error <- rnorm (100)
 y <- ifelse((rowSums(X) + error) > 0, 1, 0)
 
-# Draw random test sets
+# Draw a subset as test data
 library(caret)
-Indices <- createMultiFolds(y=y, k = 10, times = 5)
+Indices <- createDataPartition(y=y, times = 1, p=0.8) [[1]]
 
 # Calculate loss function with parameters (D=10, sigma=1, lambda=0)
 # in one level
-calcLoss <- lossCvKDSN(parOpt=c(10, 1, 0), y=y, X=X, 
-cvIndex=Indices, seedW=0, levels=1)
-c(calcLoss)
-
-# Calculate loss function with parameters 
-# (D=10, sigma=1, lambda=0.1, D=5, sigma=2, lambda=0.01) in two levels
-calcLoss <- lossCvKDSN(parOpt=c(10, 1, 0.1, 5, 2, 0.01), 
-y=y, X=X, cvIndex=Indices, seedW=1:2, levels=2)
+calcLoss <- lossSharedTestKDSN(parOpt=c(1, 10, 1, 0), y=y, X=X, 
+yTest=y[-Indices], Xtest=X[-Indices, , drop=FALSE], seedW=0)
 c(calcLoss)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

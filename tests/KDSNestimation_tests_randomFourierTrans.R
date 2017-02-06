@@ -33,15 +33,15 @@ distances <- dist(realDat)
 gaussianRBFmatrix <- exp(-as.matrix(distances)^2 / (2*sigmaSpec))
 # Calculate random Fourier transform
 rftMat <- randomFourierTrans (X=realDat, Dim=1, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 # Compare with rbf matrix
 approxSigma1Dim1 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.6277217
 rftMat <- randomFourierTrans (X=realDat, Dim=10, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim10 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.1776484
 stopifnot(approxSigma1Dim1 > approxSigma1Dim10)
 rftMat <- randomFourierTrans (X=realDat, Dim=100, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim100 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.05640924
 stopifnot(approxSigma1Dim10 > approxSigma1Dim100)
 
@@ -52,15 +52,15 @@ distances <- dist(realDat)
 gaussianRBFmatrix <- exp(-as.matrix(distances)^2 / (2*sigmaSpec))
 # Calculate random Fourier transform
 rftMat <- randomFourierTrans (X=realDat, Dim=1, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 # Compare with rbf matrix
 approxSigma1Dim1 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.525662
 rftMat <- randomFourierTrans (X=realDat, Dim=10, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim10 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.1511192
 stopifnot(approxSigma1Dim1 > approxSigma1Dim10)
 rftMat <- randomFourierTrans (X=realDat, Dim=100, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim100 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.04587967
 stopifnot(approxSigma1Dim10 > approxSigma1Dim100)
 
@@ -71,14 +71,14 @@ distances <- dist(realDat)
 gaussianRBFmatrix <- exp(-as.matrix(distances)^2 / (2*sigmaSpec))
 # Calculate random Fourier transform
 rftMat <- randomFourierTrans (X=realDat, Dim=1, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 # Compare with rbf matrix
 approxSigma1Dim1 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.09362182
 rftMat <- randomFourierTrans (X=realDat, Dim=10, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim10 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.03064888
 stopifnot(approxSigma1Dim1 > approxSigma1Dim10)
 rftMat <- randomFourierTrans (X=realDat, Dim=100, sigma=sigmaSpec, seedW=0)
-tZZ <- crossprodRcpp(rftMat$Z)[[1]]
+tZZ <- crossprod(rftMat$Z)
 approxSigma1Dim100 <- mean(abs(tZZ-gaussianRBFmatrix)) # 0.01002129
 stopifnot(approxSigma1Dim10 > approxSigma1Dim100)

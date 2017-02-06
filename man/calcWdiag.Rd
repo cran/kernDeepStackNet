@@ -34,9 +34,9 @@ Taylor \& Francis Group LLC
 Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
-\note{
-This is a help function to calculate the loss function of the kernel deep stacking network, e.g. \code{\link{lossKDSN}}. It is not intended to be called directly by the user, but is given for experienced users to customize the model.
-}
+%\note{
+%%This is a help function to calculate the loss function of the kernel deep stacking network, e.g. \code{\link{lossKDSN}}. It is not intended to be called directly by the user, but is given for experienced users to customize the model.
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 

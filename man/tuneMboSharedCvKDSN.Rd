@@ -1,22 +1,20 @@
-\name{tuneMboLevelCvKDSN}
-\alias{tuneMboLevelCvKDSN}
+\name{tuneMboSharedCvKDSN}
+\alias{tuneMboSharedCvKDSN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Tuning of KDSN with efficient global optimization given level by cross-validation
+Tuning of KDSN with efficient global optimization given level by cross-validation and shared hyperparameters
 }
 \description{
-Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation or a test set to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates. Additionally preselection of variable are available based on the randomized dependence coefficient (RDC). 
+Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation or a test set to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates. In contrast \code{\link{tuneMboLevelCvKDSN}} the number of tuning parameters is independent of the number of levels. In this function the number of levels is included in the tuning process. Additionally preselection of variable are available based on the randomized dependence coefficient (RDC). 
 }
 \usage{
-tuneMboLevelCvKDSN(y, X, levels=1, alpha=rep(0, levels),
-fineTuneIt=100, nStepMult=20, designMult=10, 
-dimMax=round(sqrt(dim(X)[1])/2), addInfo=TRUE,
-maxRunsMult=1, repMult=1, tol_input=.Machine$double.eps^0.25,
-cvIndex, lossFunc=devStandard, EIopt="1Dmulti", GenSAmaxCall=100, 
-varSelect=rep(FALSE, levels), rdcRep=1, dropHidden=rep(FALSE, levels),
-standX=TRUE, standY=FALSE, timeAlloc="constant",
-varPreSelect=FALSE, varPreSelpopSize=100, varPreSelMaxiter=100,
-EItype="EQI")
+tuneMboSharedCvKDSN(y, X, alphaShared=0, fineTuneIt=100, nStepMult=20, designMult=10,
+dimMax=round(sqrt(dim(X)[1])/2), addInfo=TRUE, maxRunsMult=1, repMult=1,
+tol_input=.Machine$double.eps^0.25, cvIndex=NULL, lossFunc=devStandard, EIopt="1Dmulti",
+GenSAmaxCall=100, varSelectShared=FALSE, rdcRep=1, dropHiddenShared=FALSE,
+standX=TRUE, standY=FALSE, timeAlloc="constant", varPreSelect=FALSE, 
+varPreSelpopSize=100, varPreSelMaxiter=100, maxLevels=10,
+useCV=TRUE, yTest=NULL, Xtest=NULL, EItype="EQI")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,10 +24,7 @@ Response matrix with one column.
 \item{X}{
 Design matrix. All factors must be already encoded.
 }
-\item{levels}{
-Maximum number of levels for the kernel deep stacking network (integer scalar).
-}
-\item{alpha}{
+\item{alphaShared}{
 Weight parameter between lasso and ridge penalty (numeric vector) of each level. Default=0 corresponds to ridge penalty and 1 equals lasso.
 }
 \item{fineTuneIt}{
@@ -68,13 +63,13 @@ Specifies which algorithm is used to optimize the expected improvement criterion
 \item{GenSAmaxCall}{
 Maximum number of function calls per parameter to estimate in generalized, simulated annealing. Higher values result in more accurate estimates, but the optimization process is slowed.
 }
-\item{varSelect}{
-Specifies, if variables should be preselected by using randomized, dependence coefficient. Default is no variable selection in all levels.
+\item{varSelectShared}{
+Specifies, if variables should be preselected by using randomized, dependence coefficient. Default is no variable selection. This setting is shared across all levels.
 }
 \item{rdcRep}{
 Number of repetitions for the randomized dependence coefficient \code{\link{rdcVarOrder}}.
 }
-\item{dropHidden}{
+\item{dropHiddenShared}{
 Should dropout be applied on the random Fourier transformation? Each entry corresponds to the one level. Default is without dropout (logical vector).
 }
 \item{standX}{
@@ -95,15 +90,25 @@ Population size of the genetic algorithm (integer scalar).
 \item{varPreSelMaxiter}{
 Maximum number of generations of the genetic algorithm (integer scalar).
 }
+\item{maxLevels}{
+Maximum number of levels possible to tune. Lower number speeds up tuning, but is less flexible. Default is to use 10 levels. 
+}
+\item{useCV}{
+Should the loss be calculated from cross validation samples \code{cvIndex} or by using one subset? (logical) Default uses cross validation. 
+}
+\item{yTest}{
+External response of the test data. Only used, if \code{useCV} is TRUE. 
+}
+\item{Xtest}{
+External covariates of the test data. Only used, if \code{useCV} is TRUE. 
+}
 \item{EItype}{
 Defines the type of the improvement criterion. The default \code{EQI} corresponds to the expected quantile improvement. As an alternative \code{EI} expected improvement is also possible.
 }
 }
-%\details{
-%The direct tuning algorithm (see for reference \code{\link{tuneLevelKDSN}}) is adapted %to surrogate model optimization. The algorithm is similiar and uses a model-based %optimization procedure.
-%}
-
-%return(list(par=c(ego_result), value=attr(ego_result, "funcVal")))
+\details{
+The tuning parameters are specified the same across all levels. This leads to more parsimonious models and faster tuning. For additional flexibility the number of levels is not given in advance and also considered in tuning. 
+}
 
 \value{
 Gives the best tuned kernel deep stacking network of class \code{k_DSN_rft} given a specific level (see \code{fitKDSN}).
@@ -176,8 +181,8 @@ defLossFunc <- function(preds, ytest) {-c(auc(response=ytest, predictor=c(preds)
 
 # Tune kernel deep stacking network by auc on test data
 \dontrun{
-tuned_KDSN_EGO_level <- tuneMboLevelCvKDSN (y=y, X=X, 
-levels=2, fineTuneIt=10, nStepMult=2, designMult=5,
+tuned_KDSN_EGO_level <- tuneMboSharedCvKDSN (y=y, X=X, 
+fineTuneIt=10, nStepMult=2, designMult=3,
 cvIndex=cvTrainInd, lossFunc=defLossFunc)
 preds <- predict(tuned_KDSN_EGO_level, newx=Xtest)
 library(pROC)

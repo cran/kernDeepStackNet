@@ -19,7 +19,7 @@ Numeric Matrix.
 %\details{
 %}
 \value{
-Numeric vector with increasing eigenvalues.
+Numeric vector eigenvalues in increasing order.
 }
 %\references{
 %}
@@ -36,9 +36,24 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 \code{\link{eigen}}
 }
 
-%\examples{
-%
-%}
+\examples{
+# Define simple binary matrix
+M <- cbind(c(1,-1), c(-1,1))
+
+# Calculate eigen values with standard function
+eigenVal <- eigen(M, only.values=TRUE)$values
+
+# Calculate eigen values with Rcpp version
+eigenValRcpp <- rev(getEigenValuesRcpp(M))
+
+# Check equality
+all.equal(eigenVal, eigenValRcpp) # TRUE
+
+# Analyse run time of both variants
+library(microbenchmark)
+microbenchmark(Standard=eigen(M, only.values=TRUE), Rcpp=getEigenValuesRcpp(M))
+# -> Rcpp function is on average about 30 times faster than the standard R function
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ models & regression }

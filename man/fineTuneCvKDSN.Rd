@@ -9,7 +9,7 @@ Weight matrices are randomly drawn given a KDSN model structure with prespecifie
 }
 \usage{
 fineTuneCvKDSN(estKDSN, y, X, fineTuneIt=100, info=TRUE, 
-seedInit=NULL, ncpus=1, cvIndex, lossFunc=devStandard)
+seedInitW=NULL, seedInitD=NULL, ncpus=1, cvIndex, lossFunc=devStandard)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,8 +28,11 @@ Number of random generated iterations. Default is 100 (numeric scalar).
 \item{info}{
 Should additional informations be displayed? Default is TRUE (logical scalar).
 }
-\item{seedInit}{
+\item{seedInitW}{
 Gives the seed initialization of the random seeds for weight matrix generation. Each element of the integer vector corresponds to one level. Default is NULL \code{\link[base]{Random}}.
+}
+\item{seedInitD}{
+Gives the seed initialization of the random seeds for dropout generation. Each element of the integer vector corresponds to one level. Default is NULL \code{\link[base]{Random}}.
 }
 \item{ncpus}{
 Gives the number of cpus (threads), which should be used. The parallization is based on the parallel package. 
@@ -58,13 +61,13 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This procedure is already included in the other tuning algorithms. For further improving predictive accuracy, this function can be used after finding the structure of the KDSN. 
+This procedure is already included in the other tuning algorithms, e. g. \code{\link{tuneMboLevelCvKDSN}}. It can be used after finding the structure of the KDSN. This may improve predictive accuracy in some cases, but it is not always necessary. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{tuneMboCvKDSN}}, \code{\link{tuneMboLevelCvKDSN}}
+\code{\link{tuneMboLevelCvKDSN}}, \code{\link{tuneMboSharedCvKDSN}}, \code{\link{tuneMboLevelGcvKDSN}}
 }
 
 \examples{
@@ -93,7 +96,7 @@ cvFoldIndices <- createFolds(y=y, k=2, returnTrain=TRUE)
 # Fit kernel deep stacking network with three levels
 # Initial seed should be supplied in fitted model!
 fitKDSN1 <- fitKDSN(y=y, X=X, levels=3, Dim=c(20, 10, 5), 
-             sigma=c(0.5, 1, 2), lambda=c(1, 0.1, 0.01), 
+             sigma=c(0.5, 1, 2), lambdaRel=c(1, 0.1, 0.01), 
              alpha=rep(0, 3), info=TRUE, seedW=c(0, 1:2))
 
 # Apply additional fine tuning based on predictive deviance

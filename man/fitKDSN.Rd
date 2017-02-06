@@ -5,12 +5,17 @@
 Fit kernel deep stacking network with random Fourier transformations
 }
 \description{
-Estimates the kernel deep stacking network with identity link function (Gaussian) for the response in each level. 
+Estimates the kernel deep stacking network with identity link function (Gaussian) for the response in each level. Sparsity may be included with the addition of dropout, variable pre- and internal selection as well as L1 penalty of the cofficients. 
 }
 \usage{
 fitKDSN(y, X, levels=1, Dim=rep(round(sqrt(dim(X) [1]) / 2), levels), 
-             sigma=rep(1, levels), lambda=rep(0, levels), 
-             alpha=rep(0, levels), info=FALSE, seedW=NULL, standX=TRUE)
+             sigma=rep(1, levels), lambdaRel=rep(0.5, levels), 
+             alpha=rep(0, levels), info=FALSE, seedW=NULL, standX=TRUE, standY=FALSE,
+             varSelect=rep(FALSE, levels), varRanking=NULL, varExFreq=rep(NA, levels),
+             dropHidden=rep(FALSE, levels), 
+             dropHiddenProb=rep(NA, levels), 
+             seedDrop=NULL, baggingInd=NULL, randSubsetInd=NULL,
+             maxItOpt=10000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,8 +34,8 @@ Dimension of the random Fourier transformations in each level (integer vector). 
 \item{sigma}{
 Variance of the Gaussian kernel of each level. The higher the variance, on average the more different transformed observations will be generated.
 }
-\item{lambda}{
-Ridge regularization parameter of each level. It gives the weight how strong the coefficients should be shrinked. Zero means only likelihood fitting and infinity shrinks all coefficients to zero.
+\item{lambdaRel}{
+Relative ridge regularization parameter of each level. The relative ridge regularization parameter is limited to the interval [0, 1] and 0 corresponds to no shrinkage and 1 stands for maximum penalty to shrink all coefficients except the intercept to zero. Default is set in the middle between those extremes. 
 }
 \item{alpha}{
 Weight parameter between lasso and ridge penalty (numeric vector) of each level. Default=0 corresponds to ridge penalty and 1 equals lasso.
@@ -44,9 +49,39 @@ Random seed for drawing Fourier transformation weights of the multivariate norma
 \item{standX}{
 Should the design matrix be standardized by median and median absolute deviation? Default is TRUE.
 }
+\item{standY}{
+Should the response be standardized by median and median absolute deviation? Default is FALSE.
+}
+\item{varSelect}{
+Should unimportant variables be excluded in each level? Default is that all available variables are used. (logical scalar)
+}
+\item{varRanking}{
+Defines a variable ranking in increasing order. The first variable is least important and the last is the most important. (integer vector)
+}
+\item{varExFreq}{
+Gives the relative frequency of variables to drop within the interval [0, 1]. Latent variables are always included in the model.
+}
+\item{dropHidden}{
+Should dropout be applied on the random Fourier transformation? Each entry corresponds to the one level. Default is without dropout in all levels (logical vector).
+}
+\item{dropHiddenProb}{
+Probability of inclusion of cells in random Fourier transformation. Each entry corresponds to the probability of one level.
+}
+\item{seedDrop}{
+Specifies the seed of the random dropouts in the calculation of random Fourier transformation per level. Default is random (integer vector).
+}
+\item{baggingInd}{
+Gives the indices of the bootstrap samples in list format. Each entry of the list (integer vector) corresponds to one level. 
+}
+\item{randSubsetInd}{
+Gives the indices of the random variable subsets in list format. Each entry of the list (integer vector) corresponds to one level. 
+}
+\item{maxItOpt}{
+Gives the maximum number of iterations in the optimization procedure of the elastic net regression. For details see \code{\link[glmnet]{glmnet}}. 
+}
 }
 \details{
-A kernel deep stacking network is a neural network with multiple number of levels. In each level there is a random Fourier transformation of the data, based on Gaussian kernels, which has theoretically an infinite expansion. The random Fourier transform converges exponentially fast to the Gaussian kernel matrix by increasing dimension. Then a kernel ridge regression is applied given the transformed data. The outcome of all levels is always Gaussian. The predictions of the all last levels are included as coveriates in the next level.
+A kernel deep stacking network is an approximation of artificial neural networks with multiple number of levels. In each level there is a random Fourier transformation of the data, based on Gaussian kernels, which can be represented as an infinite series. The random Fourier transform converges exponentially fast to the Gaussian kernel matrix by increasing dimension. Then a kernel ridge regression is applied given the transformed data. The predictions of the all last levels are included as covariates in the next level.
 }
 \value{
 \itemize{
@@ -119,7 +154,7 @@ y <- sapply(1:100, function(x) rbinom(n=1, size=1, prob=logistVal[x]))
 
 # Fit kernel deep stacking network with three levels
 fitKDSN1 <- fitKDSN(y=y, X=X, levels=3, Dim=c(20, 10, 5), 
-             sigma=c(6, 8, 10), lambda=c(1, 0.1, 0.01), 
+             sigma=c(6, 8, 10), lambdaRel=c(1, 0.1, 0.01), 
              alpha=rep(0, 3), info=TRUE, 
              seedW=c(1882335773, -1640543072, -931660653))
 
@@ -158,7 +193,7 @@ y <- sapply(1:100, function(x) rnorm(n=1, mean=linPred[x], sd=2))
 
 # Fit kernel deep stacking network with five levels
 fitKDSN1 <- fitKDSN(y=y, X=X, levels=5, Dim=c(40, 20, 10, 7, 5), 
-             sigma=c(0.125, 0.25, 0.5, 1, 2), lambda=c(10, 1, 0.1, 0.01, 0.001), 
+             sigma=c(0.125, 0.25, 0.5, 1, 2), lambdaRel=c(1, 0.5, 0.1, 0.01, 0.001), 
              alpha=rep(0, 5), info=TRUE, 
              seedW=c(-584973296, -251589341, -35931358, 313178052, -1322344272))
 

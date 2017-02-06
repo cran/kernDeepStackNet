@@ -64,8 +64,9 @@ in the previous formula.
 Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
-%\note{
-%}
+\note{
+For further examples see DiceOptim::EI
+}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -74,7 +75,7 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 %\examples{
-%# See DiceOptim::EI
+%
 %}
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

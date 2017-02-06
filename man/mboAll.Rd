@@ -10,8 +10,10 @@ Implements the efficient global optimization algorithm based on Kriging. It is a
 \usage{
 mboAll(loss_func, n_steps, initDesign, lower_bounds, 
 upper_bounds, x_start, isoInput=FALSE, addInfo=TRUE, 
-maxRuns=3, repetitions=5, tol_input=.Machine$double.eps^0.25, 
-nCores=1, envir=parent.frame(), metaModelSelect=TRUE)
+maxRunsMult=1, repMult=1, tol_input=.Machine$double.eps^0.25, 
+envir=parent.frame(), metaModelSelect=TRUE, 
+EIopt="1Dmulti", GenSAmaxCall=100, timeAlloc="constant",
+EItype="EI")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,23 +41,32 @@ Force the covariance structure of the km to have only one range parameter. For d
 \item{addInfo}{
 Should additional information be displayed during optimization? (logical value). Default is TRUE.
 }
-\item{maxRuns}{
-Maximal number of iterations in the conditional optimization. Default is three. See \code{\link{optimize1dMulti}}.
+\item{maxRunsMult}{
+Multiplies the base number of iterations in the conditional optimization. Default is to use the number of hyperparameters. See \code{\link{optimize1dMulti}}.
 }
-\item{repetitions}{
-Maximal number of random starting values for helping to avoid local optima. Default is five. See \code{\link{optimize1dMulti}}.
+\item{repMult}{
+Multiplies the base number of random starting values for helping to avoid local optima. Default is the number of hyperparameters. See \code{\link{optimize1dMulti}}.
 }
 \item{tol_input}{
 Convergence criteria of each one dimensional sub-optimization. Higher values will be more accurate, but require much more function evaluations. Default is the fourth root of the machine double accuracy. See \code{\link{optimize1dMulti}}.
-}
-\item{nCores}{
-Specifies how many cores are used in tuning (integer scalar). Default=1 is serial processing.
 }
 \item{envir}{
 Internal variable to store environments. Default is to look up in a one level higher environment. Modification is unnecessary.
 }
 \item{metaModelSelect}{
 Should the covariance kernel of the Kriging model be automatically selected? (logical scalar) Default is TRUE and corresponds to the 5/2 materin covariance structure.
+}
+\item{EIopt}{
+Specifies which algorithm is used to optimize the expected improvement criterion. Two alternatives are available "1Dmulti" and "GenSA". The former uses the conditional 1D algorithm and the latter generalized, simulated annealing.
+}
+\item{GenSAmaxCall}{
+Maximum number of function calls per parameter to estimate in generalized, simulated annealing. Higher values result in more accurate estimates, but the optimization process is slowed.
+}
+\item{timeAlloc}{
+Specifies how the new noise variance is influenced by iteration progress. Default is to use "constant"" allocation. The other available option is to specify "zero", which corresponds to the original expected improvement criterion.
+}
+\item{EItype}{
+Defines the type of the improvement criterion. The default \code{EI} corresponds to the expected improvement. As an alternative \code{EQI} the expected quantile improvement is also possible.
 }
 }
 \details{
@@ -69,6 +80,7 @@ List with following components:
 \itemize{
 \item{par: }{Best found parameter values}
 \item{value: }{Function value at the best found parameters}
+\item{MBOprogress: }{MBO tuning process history}
 }
 }
 
@@ -87,13 +99,13 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-Function is supplied for model customization and intended for the experienced user. The more user friendly function \code{\link{tuneMboKDSN}} uses this code as intermediate step.
+Function is supplied for model customization and intended for the experienced user. The more user friendly function \code{\link{tuneMboLevelCvKDSN}} uses this code as intermediate step.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link[DiceKriging]{km}}, \code{\link[DiceKriging]{leaveOneOut.km}}, \code{\link[lhs]{maximinLHS}}, \code{\link{tuneMboKDSN}}, \code{\link{mbo1d}}
+\code{\link[DiceKriging]{km}}, \code{\link[DiceKriging]{leaveOneOut.km}}, \code{\link[lhs]{maximinLHS}}, \code{\link{tuneMboLevelCvKDSN}}, \code{\link{mbo1d}}
 }
 
 \examples{

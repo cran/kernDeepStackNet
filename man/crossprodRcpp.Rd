@@ -5,7 +5,7 @@
   Calculates the cross product of a matrix
 }
 \description{
-This is an computational efficient help function to calculate the GCV loss of the KDSN. Calculates the matrix product A^T A. It is written in C and is usually faster than the regular R version.
+This is an computational efficient help function to calculate the GCV loss of the KDSN. Calculates the matrix product A^T A. It is written in C and faster than the regular R version.
 }
 \usage{
   crossprodRcpp(A)

@@ -31,7 +31,7 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
+This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. %%It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

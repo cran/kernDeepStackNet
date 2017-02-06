@@ -1,22 +1,24 @@
-\name{tuneMboLevelCvKDSN}
-\alias{tuneMboLevelCvKDSN}
+\name{tuneMboLevelGcvKDSN}
+\alias{tuneMboLevelGcvKDSN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Tuning of KDSN with efficient global optimization given level by cross-validation
 }
 \description{
-Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation or a test set to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates. Additionally preselection of variable are available based on the randomized dependence coefficient (RDC). 
+Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses generalized cross validation approximation of out of sample error without using external data. Preselection of variables is based on the randomized dependence coefficient (RDC). 
 }
 \usage{
-tuneMboLevelCvKDSN(y, X, levels=1, alpha=rep(0, levels),
-fineTuneIt=100, nStepMult=20, designMult=10, 
-dimMax=round(sqrt(dim(X)[1])/2), addInfo=TRUE,
-maxRunsMult=1, repMult=1, tol_input=.Machine$double.eps^0.25,
-cvIndex, lossFunc=devStandard, EIopt="1Dmulti", GenSAmaxCall=100, 
-varSelect=rep(FALSE, levels), rdcRep=1, dropHidden=rep(FALSE, levels),
-standX=TRUE, standY=FALSE, timeAlloc="constant",
-varPreSelect=FALSE, varPreSelpopSize=100, varPreSelMaxiter=100,
-EItype="EQI")
+tuneMboLevelGcvKDSN(y, X, levels=1, alpha=rep(0, levels), fineTuneIt=100, 
+                    nStepMult=20, designMult=10, 
+                    dimMax=round(sqrt(dim(X)[1])/2), addInfo=TRUE,
+                    maxRunsMult=1, repMult=1, 
+                    tol_input=.Machine$double.eps^0.25, 
+                    EIopt="1Dmulti", GenSAmaxCall=100,
+                    varSelect=rep(FALSE, levels), rdcRep=1, 
+                    dropHidden=rep(FALSE, levels),
+                    standX=TRUE, standY=FALSE, timeAlloc="constant", 
+                    varPreSelect=FALSE, varPreSelpopSize=100, varPreSelMaxiter=100,
+                    EItype="EQI")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -55,12 +57,6 @@ Multiplies the base number of random starting values in the conditional one dime
 }
 \item{tol_input}{
 Convergence criteria of each one dimensional sub-optimization. Higher values will be more accurate, but require much more function evaluations. Default is the fourth root of the machine double accuracy. See \code{\link{optimize1dMulti}}.
-}
-\item{cvIndex}{
-Index of cross-validation indices. The indices represent the training data. Must be supplied as list, the required format is identical to the output of the \code{\link[caret]{createFolds}} with argument returnTrain=TRUE. 
-}
-\item{lossFunc}{
-Specifies how the loss on the test data should be evaluated. Defaults to predictive deviance \code{\link{devStandard}}.
 }
 \item{EIopt}{
 Specifies which algorithm is used to optimize the expected improvement criterion. Two alternatives are available "1Dmulti" and "GenSA". The former uses the conditional 1D algorithm and the latter generalized, simulated annealing.
@@ -124,7 +120,7 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This function is supplied to optimize units KDSN with many levels. Very complex data generating mechanisms may be more efficiently represented with large number of levels. The computation time increases progressive the more levels are added. Higher values of tol_input, fineTuneIt, maxRuns, repetitions may increase performance. The computation time of the tuning algorithm increases mostly with higher values of dimMax. \\
+This function is supplied to optimize units KDSN with many levels. Complex data generating mechanisms may be more efficiently represented with large number of levels. The computation time increases progressive the more levels are added. Higher values of tol_input, fineTuneIt, maxRuns, repetitions may increase performance. The computation time of the tuning algorithm increases mostly with higher values of dimMax. \\
 \\
 The variable selection \code{varSelect=TRUE} calculates the rdc of all variables. Then the variables above a pre-specified threshold are choosen as important and all others are discarded. In the estimation process, in each level the least important variable according to rdc, is removed from the design matrix. Only observed variables may be removed. Latent variables are always used in the model.  
 }
@@ -167,18 +163,10 @@ set.seed(-10)
 error <- rnorm (sampleSize)
 ytest <- ifelse((rowSums(Xtest) + error) > 0, 1, 0)
 
-# Draw cv training indices
-library(caret)
-cvTrainInd <- createFolds(y=y, k = 2, list = TRUE, returnTrain = TRUE)
-
-# Define loss function
-defLossFunc <- function(preds, ytest) {-c(auc(response=ytest, predictor=c(preds)))}
-
 # Tune kernel deep stacking network by auc on test data
 \dontrun{
-tuned_KDSN_EGO_level <- tuneMboLevelCvKDSN (y=y, X=X, 
-levels=2, fineTuneIt=10, nStepMult=2, designMult=5,
-cvIndex=cvTrainInd, lossFunc=defLossFunc)
+tuned_KDSN_EGO_level <- tuneMboLevelGcvKDSN (y=y, X=X, 
+levels=2, fineTuneIt=10, nStepMult=2, designMult=5)
 preds <- predict(tuned_KDSN_EGO_level, newx=Xtest)
 library(pROC)
 auc(response=ytest, predictor=c(preds))

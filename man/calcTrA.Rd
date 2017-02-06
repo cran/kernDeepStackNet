@@ -5,7 +5,7 @@
 Calculates the trace of the hat matrix
 }
 \description{
-The trace of the hat matrix corresponds to the effective degrees of freedom (edf) of a generalized additive model. The edf measures internal model complexity.
+The trace of the hat matrix corresponds to the effective degrees of freedom (edf) of a generalized additive model. The edf is used as an internal measure of model complexity.
 }
 \usage{
 calcTrA(W, X, lambda=0)
@@ -38,7 +38,7 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
+This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. %%It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

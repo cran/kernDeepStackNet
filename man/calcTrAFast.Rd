@@ -5,7 +5,7 @@
 Calculates the trace of the hat matrix as C version
 }
 \description{
-The trace of the hat matrix corresponds to the effective degrees of freedom (edf) of a generalized additive model. The edf measures internal model complexity.
+The trace of the hat matrix corresponds to the effective degrees of freedom (edf) of a generalized additive model. The edf is an internal measure of model complexity.
 }
 \usage{
 calcTrAFast(X, w, lambda=0)
@@ -23,7 +23,7 @@ Regularization parameter of kernel ridge regression. Default is 0 (numeric scala
 }
 }
 \details{
-This function is a more computational efficient version of \code{\link{calcTrA}}. The general algorithm is simplified and requires less memory and is faster. Therefore it is better suited for data sets above 1000 observations.
+This function is a more computational efficient version of \code{\link{calcTrA}}. The general algorithm is simplified, requires less memory and is faster. Therefore it is better suited for data sets above 1000 observations.
 }
 \value{
 Effective degrees of freedom of a generalized additive model with regularization (numeric scalar).
@@ -38,7 +38,7 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
+This function is not intended to be called directly by the user. Should only be used by experienced users, who want to customize the model. %%It is called in the model selection process of the kernel deep stacking network, e.g. \code{\link{tuneKDSN}}.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
