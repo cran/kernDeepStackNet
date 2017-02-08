@@ -1,7 +1,7 @@
 Package: kernDeepStackNet
-Version: 2.0.0
+Version: 2.0.1
 Title: Kernel Deep Stacking Networks
-Date: 2017-02-06
+Date: 2017-02-07
 Author: Thomas Welchowski <welchow@imbie.meb.uni-bonn.de> and Matthias Schmid
     <matthias.schmid@imbie.uni-bonn.de>
 Maintainer: Thomas Welchowski <welchow@imbie.meb.uni-bonn.de>
@@ -16,6 +16,6 @@ LazyLoad: yes
 LinkingTo: Rcpp, RcppEigen
 RoxygenNote: 5.0.0
 NeedsCompilation: yes
-Packaged: 2017-02-06 14:26:39 UTC; Welchowski
+Packaged: 2017-02-07 20:14:19 UTC; Thomas
 Repository: CRAN
-Date/Publication: 2017-02-06 16:37:07
+Date/Publication: 2017-02-08 01:30:30

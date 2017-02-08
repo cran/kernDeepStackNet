@@ -1,4 +1,4 @@
-0a01d4379b9dc927ade2050c39c1d523 *DESCRIPTION
+82e46697580b71916bdd8956f5317a11 *DESCRIPTION
 6fb32ee1ec7849d48ffb5fa0e027cfa8 *NAMESPACE
 a625c43a9ccf6533ceef25bd27249067 *R/KDSNOptMisc.R
 29d0e2d5585709e888441e33ecebbcf1 *R/KDSNdirectOpt.R
@@ -19,8 +19,8 @@ c4a7a5efefbf1df493c9cbe7797d5abf *man/fineTuneCvKDSN.Rd
 f1e685d93f841a8068261244cf0c906a *man/fitKDSN.Rd
 e5073797273cf750087eaedce44deda2 *man/fourierTransPredict.Rd
 675387f8f68e257386711b0801070519 *man/gDerivMu.Rd
-5c4ba2739cab61d7d6271b4bae268c02 *man/getEigenValuesRcpp.Rd
-f480f508a2aa63b26972b1fbef43466b *man/kernDeepStackNet-package.Rd
+d74213556610a8c383d742c0964cdfc2 *man/getEigenValuesRcpp.Rd
+673c154033d74810d509d6e94923ae23 *man/kernDeepStackNet-package.Rd
 05a733b84584d94921825932bd32608e *man/lossApprox.Rd
 6c5f9dbc0925ee5f4e066da1b8e9c65a *man/lossCvKDSN.Rd
 7133676be276771bddd7213d16e0b8dd *man/lossGCV.Rd

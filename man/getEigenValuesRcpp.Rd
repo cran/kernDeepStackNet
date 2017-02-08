@@ -50,8 +50,10 @@ eigenValRcpp <- rev(getEigenValuesRcpp(M))
 all.equal(eigenVal, eigenValRcpp) # TRUE
 
 # Analyse run time of both variants
-library(microbenchmark)
-microbenchmark(Standard=eigen(M, only.values=TRUE), Rcpp=getEigenValuesRcpp(M))
+if(tryCatch(require("microbenchmark", quietly=TRUE, warn.conflicts=FALSE, 
+character.only = TRUE), warning=function(w) FALSE, error=function(e) FALSE)) {
+  microbenchmark(Standard=eigen(M, only.values=TRUE), Rcpp=getEigenValuesRcpp(M))
+}
 # -> Rcpp function is on average about 30 times faster than the standard R function
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
