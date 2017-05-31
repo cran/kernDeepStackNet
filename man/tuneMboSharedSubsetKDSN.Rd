@@ -2,10 +2,10 @@
 \alias{tuneMboSharedSubsetKDSN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Tuning subsets of KDSN with efficient global optimization and shared hyperparameters
+Tuning subsets of KDSN with efficient global optimization and shared hyperparameters (experimental)
 }
 \description{
-Estimates ensembles of (sparse) KDSNs with shared tuning parameters. The number of levels is incorporated into the tuning process. Each part of the ensemble is tuned using model-based optimization as implemented in function \code{\link{tuneMboSharedCvKDSN}}. 
+Estimates ensembles of (sparse) KDSNs with shared tuning parameters (still experimental). The number of levels is incorporated into the tuning process. Each part of the ensemble is tuned using model-based optimization as implemented in function \code{\link{tuneMboSharedCvKDSN}}. 
 }
 \usage{
 tuneMboSharedSubsetKDSN (noSubsets=2, noSubsetRep=1, subSeed=NULL, y, X, alphaShared=1,

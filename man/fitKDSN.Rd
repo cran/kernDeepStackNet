@@ -5,7 +5,7 @@
 Fit kernel deep stacking network with random Fourier transformations
 }
 \description{
-Estimates the kernel deep stacking network with identity link function (Gaussian) for the response in each level. Sparsity may be included with the addition of dropout, variable pre- and internal selection as well as L1 penalty of the cofficients. 
+Estimates the kernel deep stacking network with identity link function (Gaussian) for the response in each level. Sparsity may be included with the addition of dropout (experimental), variable pre- and internal selection (experimental) as well as L1 penalty of the cofficients. 
 }
 \usage{
 fitKDSN(y, X, levels=1, Dim=rep(round(sqrt(dim(X) [1]) / 2), levels), 
@@ -81,6 +81,8 @@ Gives the maximum number of iterations in the optimization procedure of the elas
 }
 }
 \details{
+Note that the implementation of drop-out and variable selection is still experimental. \\
+\\
 A kernel deep stacking network is an approximation of artificial neural networks with multiple number of levels. In each level there is a random Fourier transformation of the data, based on Gaussian kernels, which can be represented as an infinite series. The random Fourier transform converges exponentially fast to the Gaussian kernel matrix by increasing dimension. Then a kernel ridge regression is applied given the transformed data. The predictions of the all last levels are included as covariates in the next level.
 }
 \value{
@@ -146,7 +148,7 @@ for(j in 1:5) {
   X [, j] <- rnorm(sampleSize)
 }
 
-# Generate bernoulli response
+# Generate Bernoulli response
 rowSumsX <- rowSums(X)
 logistVal <- exp(rowSumsX) / (1 + exp(rowSumsX))
 set.seed(-1)

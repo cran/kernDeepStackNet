@@ -2,7 +2,7 @@
 \alias{fitEnsembleKDSN}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Fit an ensemble of KDSN
+Fit an ensemble of KDSN (experimental)
 }
 \description{
 Given a KDSN structure, either tuned \code{\link{tuneMboLevelCvKDSN}}, \code{\link{tuneMboSharedCvKDSN}} or estimated \code{\link{fitKDSN}}, bootstrap samples are choosen of the original data. Then new random Fourier weights and random Dropout (if specified) are generated. A prespecified number of ensembles is fitted.
@@ -72,7 +72,7 @@ Only relevant if saveOnDisk=TRUE. Gives the path, where the fitted models will b
 }
 }
 \details{
-It is important that the estimated KDSN has a custom set seed (argument "estKDSN") to ensure reproducibility. Otherwise the model is refitted using the default seed values 
+Note that this function is still experimental. It is important that the estimated KDSN has a custom set seed (argument "estKDSN") to ensure reproducibility. Otherwise the model is refitted using the default seed values 
 seq(0, (Number of Levels-1), 1) are used for random Fourier transformation. 
 
 The disadvantage on using argument saveOnDisk=TRUE is, that saving and compressing the objects takes more time instead of using them together into workspace.

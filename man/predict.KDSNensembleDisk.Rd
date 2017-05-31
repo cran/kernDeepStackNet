@@ -2,10 +2,10 @@
 \alias{predict.KDSNensembleDisk}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Predict kernel deep stacking networks ensembles
+Predict kernel deep stacking networks ensembles (experimental)
 }
 \description{
-Predicts new data with a given kernel deep stacking network ensembles. The model is not stored in workspace, but on disk in temporary folder, where it has been created. The temporary file folder should be available in the working directory.
+Predicts new data with a given kernel deep stacking network ensembles. The model is not stored in workspace, but on disk in temporary folder, where it has been created. The temporary file folder should be available in the working directory. Note that this function is still experimental.
 }
 \usage{
 \method{predict}{KDSNensembleDisk}(object, newx, \dots)

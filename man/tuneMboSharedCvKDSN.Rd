@@ -5,7 +5,7 @@
 Tuning of KDSN with efficient global optimization given level by cross-validation and shared hyperparameters
 }
 \description{
-Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation or a test set to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates. In contrast \code{\link{tuneMboLevelCvKDSN}} the number of tuning parameters is independent of the number of levels. In this function the number of levels is included in the tuning process. Additionally preselection of variable are available based on the randomized dependence coefficient (RDC). 
+Implements the efficient global optimization algorithm based on Kriging for kernel deep stacking networks (KDSN). This function uses cross-validation or a test set to calculate the desing grid and is more computationally expensive, but uses more accurate generalization error estimates. In contrast \code{\link{tuneMboLevelCvKDSN}} the number of tuning parameters is independent of the number of levels. In this function the number of levels is included in the tuning process. Additionally preselection of variables (still experimental) is available based on the randomized dependence coefficient (RDC). 
 }
 \usage{
 tuneMboSharedCvKDSN(y, X, alphaShared=0, fineTuneIt=100, nStepMult=20, designMult=10,
@@ -107,7 +107,7 @@ Defines the type of the improvement criterion. The default \code{EQI} correspond
 }
 }
 \details{
-The tuning parameters are specified the same across all levels. This leads to more parsimonious models and faster tuning. For additional flexibility the number of levels is not given in advance and also considered in tuning. 
+The tuning parameters are specified the same across all levels. This leads to more parsimonious models and faster tuning. For additional flexibility the number of levels is not given in advance and also considered in tuning. Note that this function is still experimental. 
 }
 
 \value{
@@ -129,9 +129,9 @@ Thomas Welchowski \email{welchow@imbie.meb.uni-bonn.de}
 }
 
 \note{
-This function is supplied to optimize units KDSN with many levels. Very complex data generating mechanisms may be more efficiently represented with large number of levels. The computation time increases progressive the more levels are added. Higher values of tol_input, fineTuneIt, maxRuns, repetitions may increase performance. The computation time of the tuning algorithm increases mostly with higher values of dimMax. \\
-\\
-The variable selection \code{varSelect=TRUE} calculates the rdc of all variables. Then the variables above a pre-specified threshold are choosen as important and all others are discarded. In the estimation process, in each level the least important variable according to rdc, is removed from the design matrix. Only observed variables may be removed. Latent variables are always used in the model.  
+This function is supplied to optimize units KDSN with many levels. Very complex data generating mechanisms may be more efficiently represented with large number of levels. The computation time increases progressive the more levels are added. Higher values of tol_input, fineTuneIt, maxRuns, repetitions may increase performance. The computation time of the tuning algorithm increases mostly with higher values of dimMax. 
+
+The variable selection \code{varSelect=TRUE} calculates the rdc of all variables (experimental). Then the variables above a pre-specified threshold are choosen as important and all others are discarded. In the estimation process, in each level the least important variable according to rdc, is removed from the design matrix. Only observed variables may be removed. Latent variables are always used in the model.  
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

@@ -2,10 +2,10 @@
 \alias{predict.KDSNensemble}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Predict kernel deep stacking networks ensembles
+Predict kernel deep stacking networks ensembles (experimental)
 }
 \description{
-Predicts new data with a given kernel deep stacking network ensemble. All levels are applied successively with fixed weights to reproduce results.
+Predicts new data with a given kernel deep stacking network ensemble. All levels are applied successively with fixed weights to reproduce results. Note that this function is still experimental.
 }
 \usage{
 \method{predict}{KDSNensemble}(object, newx, \dots)

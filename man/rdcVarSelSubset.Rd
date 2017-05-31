@@ -2,10 +2,10 @@
 \alias{rdcVarSelSubset}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Variable selection based on RDC with genetic algorithm
+Variable selection based on RDC with genetic algorithm (experimental)
 }
 \description{
-Selects important variables, which have high RDC scores. A genetic algorithm is used to search the discrete space.
+Selects important variables, which have high RDC scores. A genetic algorithm is used to search the discrete space. Note that this function is still experimental.
 }
 \usage{
 rdcVarSelSubset(x, y, k=20, s=1/6, f=sin, seedX=1:10, seedY=-c(1:10), 

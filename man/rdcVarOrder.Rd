@@ -2,7 +2,7 @@
 \alias{rdcVarOrder}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Variable ordering using randomized dependence coefficients (RDC)
+  Variable ordering using randomized dependence coefficients (experimental)
 }
 \description{
   Variable selection for KDSN. All variables are univariately compared to the responses with the randomized dependence coefficient (RDC). The indices of the variables are ordered accordingly. Variables with low RDC may be discarded.
@@ -49,7 +49,7 @@
 }
 
 \details{
-Covariates are ranked according to their dependence with the response variable. 
+Covariates are ranked according to their dependence with the response variable. Note that this function is still experimental.
 }
 
 \references{

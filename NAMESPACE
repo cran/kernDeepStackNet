@@ -1,5 +1,5 @@
-useDynLib(kernDeepStackNet)
-exportPattern("^[^\\.]")
+useDynLib(kernDeepStackNet, .registration=TRUE)
+export(calcTrA, calcTrAFast, calcWdiag, cancorRed, crossprodRcpp, devStandard, EImod, fineTuneCvKDSN, fitEnsembleKDSN, fitKDSN, fourierTransPredict, gDerivMu, getEigenValuesRcpp, lossApprox, lossCvKDSN, lossGCV, lossSharedCvKDSN, lossSharedTestKDSN, mbo1d, mboAll, optimize1dMulti, predict.KDSN, predict.KDSNensemble, predLogProb, randomFourierTrans, rdcPart, rdcSubset, rdcVarOrder, rdcVarSelSubset, robustStandard, tuneMboLevelCvKDSN, tuneMboLevelGcvKDSN, tuneMboSharedCvKDSN, tuneMboSharedSubsetKDSN, varMu)
 importFrom(methods, formalArgs, functionBody)
 importFrom(stats, coef, dist, dnorm, mad, median, optimize, pnorm, predict, quantile, runif, sd, na.omit, rnorm, var, cancor)
 import(Rcpp)
